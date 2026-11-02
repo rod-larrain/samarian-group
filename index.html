@@ -15,7 +15,8 @@
       --cream: #fdf4e3;
       --muted: #a59e94;
       --line: rgba(253, 244, 227, 0.12);
-      --horizon: 64%;
+      --horizon: 74%;
+      --logo-w: min(420px, 78vw);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -51,33 +52,22 @@
     .sky {
       inset: 0;
       background:
-        radial-gradient(70% 38% at calc(55% + var(--mx) * 18%) var(--horizon), rgba(255, 255, 255, calc(0.085 + var(--my) * 0.025)), transparent 70%),
+        radial-gradient(70% 38% at calc(50% + var(--mx) * 18%) var(--horizon), rgba(255, 255, 255, calc(0.085 + var(--my) * 0.025)), transparent 70%),
         linear-gradient(180deg, #030404 0%, #0b0e0e calc(var(--horizon) - 2%), #040505 calc(var(--horizon) + 1%), #020303 100%);
       animation: breathe 14s ease-in-out infinite alternate;
     }
 
-    .horizon {
-      left: 10%;
-      right: -5%;
-      top: var(--horizon);
-      height: 2px;
-      transform: translateY(-50%);
-      background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.35) 12%, rgba(255, 255, 255, 0.8) 35%, rgba(255, 255, 255, 0.4) 70%, transparent 100%);
-      background-size: 200% 100%;
-      filter: blur(0.6px);
-      animation: shimmer 18s ease-in-out infinite alternate, pulse 9s ease-in-out infinite alternate;
-    }
 
     .horizon-glow {
-      left: 5%;
-      right: -10%;
+      left: 0;
+      right: 0;
       top: var(--horizon);
       height: 46px;
       transform: translateY(-50%);
       background: radial-gradient(50% 50% at 50% 50%, rgba(255, 255, 255, 0.16), transparent 70%);
       filter: blur(10px);
       translate: calc(var(--mx) * 14vw) 0;
-      animation: pulse 9s ease-in-out infinite alternate;
+      animation: pulse 9s ease-in-out infinite alternate, glide 26s ease-in-out infinite alternate;
     }
 
     .sweep {
@@ -103,6 +93,7 @@
       border-top-right-radius: 100% 22%;
       filter: blur(3px);
       translate: calc(var(--mx) * -1.5vw) 0;
+      animation: sway 30s ease-in-out infinite alternate;
     }
 
     .grain {
@@ -119,11 +110,19 @@
 
     @keyframes breathe { from { opacity: 0.85; } to { opacity: 1; } }
     @keyframes pulse { from { opacity: 0.65; } to { opacity: 1; } }
-    @keyframes shimmer { from { background-position: 0% 0; } to { background-position: 100% 0; } }
     @keyframes drift {
       from { transform: rotate(23deg) translateX(-2%); opacity: 0.7; }
       to { transform: rotate(26deg) translateX(3%); opacity: 1; }
     }
+    @keyframes glide {
+      from { transform: translate(-7vw, -50%); }
+      to { transform: translate(7vw, -50%); }
+    }
+    @keyframes sway {
+      from { transform: translate(-1.2vw, 0.5vh); }
+      to { transform: translate(1.2vw, -0.3vh); }
+    }
+    @keyframes float { from { translate: 0 0; } to { translate: 0 -5px; } }
     @keyframes grain {
       0% { transform: translate(0, 0); }
       25% { transform: translate(-3%, 2%); }
@@ -141,14 +140,14 @@
       align-items: center;
       justify-content: center;
       text-align: center;
-      padding: 72px 0 34svh; /* keep content above the horizon */
+      padding: 48px 0;
     }
 
-    .logo img { width: min(420px, 78vw); height: auto; display: block; }
+    .logo img { width: var(--logo-w); height: auto; display: block; }
 
     .about {
       margin-top: 64px;
-      max-width: 420px;
+      width: var(--logo-w); /* same width as the logo */
       font-size: 14px;
       line-height: 1.85;
       color: var(--cream);
@@ -184,8 +183,8 @@
     footer a { transition: color .2s ease; }
     footer a:hover { color: var(--muted); }
 
-    main > * { opacity: 0; animation: rise 1.2s ease forwards; }
-    .about { animation-delay: .25s; }
+    main > * { opacity: 0; animation: rise 1.2s ease forwards, float 12s ease-in-out 1.2s infinite alternate; }
+    .about { animation-delay: .25s, 3s; }
     footer { opacity: 0; animation: rise 1.2s ease .45s forwards; }
     .scene { opacity: 0; animation: fade 2.4s ease forwards; }
     @keyframes rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
@@ -196,8 +195,8 @@
     }
 
     @media (max-width: 600px) {
-      :root { --horizon: 66%; }
-      main { padding-top: 56px; padding-bottom: 36svh; }
+      :root { --horizon: 78%; --logo-w: min(336px, 62.4vw); }
+      main { padding: 40px 0; }
       .about { margin-top: 44px; font-size: 13.5px; }
       footer { flex-direction: column; align-items: center; gap: 12px; }
       .sweep { left: 6%; width: 140vmax; }
@@ -208,7 +207,6 @@
   <div class="scene" aria-hidden="true">
     <div class="sky"></div>
     <div class="horizon-glow"></div>
-    <div class="horizon"></div>
     <div class="shore"></div>
     <div class="sweep"></div>
     <div class="grain"></div>
