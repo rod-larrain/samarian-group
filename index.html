@@ -8,14 +8,13 @@
   <meta name="theme-color" content="#050707">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400&family=Jost:wght@300;400&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg: #050707;
       --cream: #fdf4e3;
       --muted: #a59e94;
-      --line: rgba(253, 244, 227, 0.12);
-      --horizon: 74%;
+      --horizon: 80%;
       --logo-w: min(420px, 78vw);
     }
 
@@ -33,6 +32,7 @@
       flex-direction: column;
       min-height: 100svh;
       padding: 0 24px;
+      overflow-x: clip;
     }
 
     /* Background: night sea, a glow on the horizon and a slow sweep of light */
@@ -49,10 +49,18 @@
     /* --mx / --my (-1..1) follow the pointer, set by the script below */
     .scene { --mx: 0; --my: 0; }
 
+    /* --travel (-1..1) carries the point of light slowly along the horizon */
+    @property --travel { syntax: "<number>"; inherits: true; initial-value: 0; }
+    @keyframes travel {
+      0% { --travel: -1; }
+      45% { --travel: 0.25; }
+      100% { --travel: 1; }
+    }
+
     .sky {
       inset: 0;
       background:
-        radial-gradient(70% 38% at calc(50% + var(--mx) * 18%) var(--horizon), rgba(255, 255, 255, calc(0.085 + var(--my) * 0.025)), transparent 70%),
+        radial-gradient(70% 38% at calc(50% + var(--mx) * 18% + var(--travel) * 24%) var(--horizon), rgba(255, 255, 255, calc(0.085 + var(--my) * 0.025)), transparent 70%),
         linear-gradient(180deg, #030404 0%, #0b0e0e calc(var(--horizon) - 2%), #040505 calc(var(--horizon) + 1%), #020303 100%);
       animation: breathe 14s ease-in-out infinite alternate;
     }
@@ -66,8 +74,8 @@
       transform: translateY(-50%);
       background: radial-gradient(50% 50% at 50% 50%, rgba(255, 255, 255, 0.16), transparent 70%);
       filter: blur(10px);
-      translate: calc(var(--mx) * 14vw) 0;
-      animation: pulse 9s ease-in-out infinite alternate, glide 26s ease-in-out infinite alternate;
+      translate: calc((var(--mx) * 14 + var(--travel) * 28) * 1vw) 0;
+      animation: pulse 9s ease-in-out infinite alternate;
     }
 
     .sweep {
@@ -79,7 +87,7 @@
       transform: rotate(24deg);
       background: radial-gradient(50% 50% at 38% 50%, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.06) 45%, transparent 72%);
       filter: blur(16px);
-      translate: calc(var(--mx) * 4vw) calc(var(--my) * 1.5vh);
+      translate: calc((var(--mx) * 4 + var(--travel) * 5) * 1vw) calc(var(--my) * 1.5vh);
       rotate: calc(var(--mx) * 3deg);
       animation: drift 22s ease-in-out infinite alternate;
     }
@@ -114,10 +122,6 @@
       from { transform: rotate(23deg) translateX(-2%); opacity: 0.7; }
       to { transform: rotate(26deg) translateX(3%); opacity: 1; }
     }
-    @keyframes glide {
-      from { transform: translate(-7vw, -50%); }
-      to { transform: translate(7vw, -50%); }
-    }
     @keyframes sway {
       from { transform: translate(-1.2vw, 0.5vh); }
       to { transform: translate(1.2vw, -0.3vh); }
@@ -143,7 +147,25 @@
       padding: 48px 0;
     }
 
+    .lockup { position: relative; display: flex; flex-direction: column; align-items: center; }
+
     .logo img { width: var(--logo-w); height: auto; display: block; }
+
+    /* City and live time, pinned to the screen edges in the gap under the logo */
+    .meta {
+      position: absolute;
+      top: calc(var(--logo-w) * 0.1105 + 32px);
+      left: calc(50% - 50vw);
+      width: 100vw;
+      padding: 0 75px;
+      transform: translateY(-50%);
+      display: flex;
+      justify-content: space-between;
+      font: 400 14px/1 "Inter", "Helvetica Neue", Arial, sans-serif;
+      letter-spacing: 0.01em;
+      text-transform: uppercase;
+      font-variant-numeric: tabular-nums;
+    }
 
     .about {
       margin-top: 64px;
@@ -164,42 +186,57 @@
       color: var(--cream);
     }
 
-    footer {
-      position: relative;
-      z-index: 1;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 10px 40px;
-      padding: 28px 0 36px;
-      border-top: 1px solid var(--line);
-      font-size: 11px;
-      font-weight: 400;
-      letter-spacing: 0.22em;
+    .email {
+      margin-top: clamp(72px, 14vh, 150px);
+      font: 400 14px/1 "Inter", "Helvetica Neue", Arial, sans-serif;
+      letter-spacing: 0.2em;
       text-transform: uppercase;
+      color: var(--cream);
+      text-decoration: none;
+      transition: color .2s ease;
     }
-
-    footer a, footer span { color: var(--cream); text-decoration: none; }
-    footer a { transition: color .2s ease; }
-    footer a:hover { color: var(--muted); }
+    .email:hover { color: var(--muted); }
 
     main > * { opacity: 0; animation: rise 1.2s ease forwards, float 12s ease-in-out 1.2s infinite alternate; }
-    .about { animation-delay: .25s, 3s; }
-    footer { opacity: 0; animation: rise 1.2s ease .45s forwards; }
-    .scene { opacity: 0; animation: fade 2.4s ease forwards; }
+    .email { animation-delay: .45s, 3s; }
+    .scene { opacity: 0; animation: fade 2.4s ease forwards, travel 48s ease-in-out infinite alternate; }
     @keyframes rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
     @keyframes fade { to { opacity: 1; } }
 
     @media (prefers-reduced-motion: reduce) {
-      main > *, footer, .scene, .scene > * { animation: none; opacity: 1; }
+      main > *, .meta-top, .scene, .scene > * { animation: none; opacity: 1; }
     }
 
+    /* Phone: city and time move to the top corners */
+    .meta-top { display: none; }
+
     @media (max-width: 600px) {
-      :root { --horizon: 78%; --logo-w: min(336px, 62.4vw); }
-      main { padding: 40px 0; }
-      .about { margin-top: 44px; font-size: 13.5px; }
-      footer { flex-direction: column; align-items: center; gap: 12px; }
+      :root { --horizon: 84%; --logo-w: min(336px, 69vw); }
+      main { padding: 72px 0 40px; }
+      .meta { display: none; }
+      .meta-top {
+        position: fixed;
+        z-index: 2;
+        top: 30px;
+        left: 32px;
+        right: 32px;
+        display: flex;
+        justify-content: space-between;
+        font: 400 10.5px/1 "Inter", "Helvetica Neue", Arial, sans-serif;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        font-variant-numeric: tabular-nums;
+        opacity: 0;
+        animation: rise 1.2s ease .45s forwards;
+      }
+      .about { margin-top: 64px; font-size: 15px; }
+      .about em { margin-top: 26px; font-size: 12px; }
+      .email { margin-top: 112px; font-size: 13px; letter-spacing: 0.2em; }
       .sweep { left: 6%; width: 140vmax; }
+    }
+
+    @media (max-width: 600px) and (prefers-reduced-motion: reduce) {
+      .meta-top { animation: none; opacity: 1; }
     }
   </style>
 </head>
@@ -213,24 +250,42 @@
     <div class="vignette"></div>
   </div>
 
-  <main>
-    <h1 class="logo">
-      <img src="assets/logo.webp" alt="Samarian" width="2000" height="221">
-    </h1>
+  <div class="meta-top">
+    <span>New York</span>
+    <time class="clock"></time>
+  </div>
 
-    <p class="about">
-      Samarian Group is a private family office. We back founders for the long term, and for a small circle of families, we open doors and help navigate the conversations that matter most.
-      <em>By referral only.</em>
-    </p>
+  <main>
+    <div class="lockup">
+      <h1 class="logo">
+        <img src="assets/logo.webp" alt="Samarian" width="2000" height="221">
+      </h1>
+
+      <div class="meta">
+        <span>New York</span>
+        <time class="clock"></time>
+      </div>
+
+      <p class="about">
+        Samarian Group is a private family office. We back founders for the long term, and for a small circle of families, we open doors and help navigate the conversations that matter most.
+        <em>By referral only.</em>
+      </p>
+    </div>
+
+    <!-- PLACEHOLDER CONTACT: replace with real email -->
+    <a class="email" href="mailto:info@samariangroup.com">info@samariangroup.com</a>
   </main>
 
-  <!-- PLACEHOLDER CONTACT: replace with real details -->
-  <footer>
-    <a href="mailto:info@samariangroup.com">info@samariangroup.com</a>
-    <span>New York, NY</span>
-  </footer>
-
   <script>
+    // Live New York time
+    (() => {
+      const clocks = document.querySelectorAll(".clock");
+      const fmt = new Intl.DateTimeFormat("en-US", { timeZone: "America/New_York", hour: "numeric", minute: "2-digit" });
+      const tick = () => { const t = fmt.format(new Date()); clocks.forEach(c => { c.textContent = t; }); };
+      tick();
+      setInterval(tick, 10000);
+    })();
+
     // Ease the light toward the pointer
     (() => {
       if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
