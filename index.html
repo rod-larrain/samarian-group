@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Samarian Group</title>
+  <meta name="description" content="Samarian Group is a private family office. By referral only.">
+  <meta name="theme-color" content="#061212">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #061212;
+      --cream: #fdf4e3;
+      --muted: #a59e94;
+      --line: rgba(253, 244, 227, 0.12);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body { height: 100%; }
+
+    body {
+      background: var(--bg);
+      color: var(--cream);
+      font-family: "Jost", "Helvetica Neue", Arial, sans-serif;
+      font-weight: 300;
+      -webkit-font-smoothing: antialiased;
+      display: flex;
+      flex-direction: column;
+      min-height: 100svh;
+      padding: 0 24px;
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 96px 0 48px;
+    }
+
+    .logo img { width: min(420px, 78vw); height: auto; display: block; }
+
+    .about {
+      margin-top: 72px;
+      max-width: 420px;
+      font-size: 14px;
+      line-height: 1.85;
+      color: var(--muted);
+    }
+
+    .about em {
+      display: block;
+      margin-top: 18px;
+      font-style: normal;
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--cream);
+    }
+
+    footer {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px 40px;
+      padding: 28px 0 36px;
+      border-top: 1px solid var(--line);
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+    }
+
+    footer a, footer span { color: var(--cream); text-decoration: none; }
+    footer a { transition: color .2s ease; }
+    footer a:hover { color: var(--muted); }
+
+    main > * { opacity: 0; animation: rise 1.2s ease forwards; }
+    .about { animation-delay: .25s; }
+    footer { opacity: 0; animation: rise 1.2s ease .45s forwards; }
+    @keyframes rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+    @media (prefers-reduced-motion: reduce) { main > *, footer { animation: none; opacity: 1; } }
+
+    @media (max-width: 600px) {
+      main { padding-top: 72px; }
+      .about { margin-top: 56px; font-size: 13.5px; }
+      footer { flex-direction: column; align-items: center; gap: 12px; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1 class="logo">
+      <img src="assets/logo.webp" alt="Samarian" width="2000" height="221">
+    </h1>
+
+    <p class="about">
+      Samarian Group is a private family office. We back founders for the long term, and for a small circle of families, we open doors and help navigate the conversations that matter most.
+      <em>By referral only.</em>
+    </p>
+  </main>
+
+  <!-- PLACEHOLDER CONTACT: replace with real details -->
+  <footer>
+    <a href="mailto:info@samariangroup.com">info@samariangroup.com</a>
+    <span>New York, NY</span>
+  </footer>
+</body>
+</html>
