@@ -9,238 +9,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400&family=Jost:wght@300;400&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --bg: #050707;
-      --cream: #fdf4e3;
-      --muted: #a59e94;
-      --horizon: 80%;
-      --logo-w: min(420px, 78vw);
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-
-    html, body { height: 100%; }
-
-    body {
-      background: var(--bg);
-      color: var(--cream);
-      font-family: "Jost", "Helvetica Neue", Arial, sans-serif;
-      font-weight: 300;
-      -webkit-font-smoothing: antialiased;
-      display: flex;
-      flex-direction: column;
-      min-height: 100svh;
-      padding: 0 24px;
-      overflow-x: clip;
-    }
-
-    /* Background: night sea, a glow on the horizon and a slow sweep of light */
-    .scene {
-      position: fixed;
-      inset: 0;
-      z-index: 0;
-      overflow: hidden;
-      pointer-events: none;
-    }
-
-    .scene > * { position: absolute; }
-
-    /* --mx / --my (-1..1) follow the pointer, set by the script below */
-    .scene { --mx: 0; --my: 0; }
-
-    /* --travel (-1..1) carries the point of light slowly along the horizon */
-    @property --travel { syntax: "<number>"; inherits: true; initial-value: 0; }
-    @keyframes travel {
-      0% { --travel: -1; }
-      45% { --travel: 0.25; }
-      100% { --travel: 1; }
-    }
-
-    .sky {
-      inset: 0;
-      background:
-        radial-gradient(70% 38% at calc(50% + var(--mx) * 18% + var(--travel) * 24%) var(--horizon), rgba(255, 255, 255, calc(0.085 + var(--my) * 0.025)), transparent 70%),
-        linear-gradient(180deg, #030404 0%, #0b0e0e calc(var(--horizon) - 2%), #040505 calc(var(--horizon) + 1%), #020303 100%);
-      animation: breathe 14s ease-in-out infinite alternate;
-    }
-
-
-    .horizon-glow {
-      left: 0;
-      right: 0;
-      top: var(--horizon);
-      height: 46px;
-      transform: translateY(-50%);
-      background: radial-gradient(50% 50% at 50% 50%, rgba(255, 255, 255, 0.16), transparent 70%);
-      filter: blur(10px);
-      translate: calc((var(--mx) * 14 + var(--travel) * 28) * 1vw) 0;
-      animation: pulse 9s ease-in-out infinite alternate;
-    }
-
-    .sweep {
-      left: 18%;
-      top: var(--horizon);
-      width: 95vmax;
-      height: 9vmax;
-      transform-origin: 0 50%;
-      transform: rotate(24deg);
-      background: radial-gradient(50% 50% at 38% 50%, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.06) 45%, transparent 72%);
-      filter: blur(16px);
-      translate: calc((var(--mx) * 4 + var(--travel) * 5) * 1vw) calc(var(--my) * 1.5vh);
-      rotate: calc(var(--mx) * 3deg);
-      animation: drift 22s ease-in-out infinite alternate;
-    }
-
-    .shore {
-      left: -30%;
-      top: calc(var(--horizon) - 1px);
-      width: 75%;
-      height: 120%;
-      background: #020303;
-      border-top-right-radius: 100% 22%;
-      filter: blur(3px);
-      translate: calc(var(--mx) * -1.5vw) 0;
-      animation: sway 30s ease-in-out infinite alternate;
-    }
-
-    .grain {
-      inset: -50%;
-      opacity: 0.16;
-      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
-      animation: grain 1.2s steps(4) infinite;
-    }
-
-    .vignette {
-      inset: 0;
-      background: radial-gradient(120% 90% at 50% 50%, transparent 55%, rgba(0, 0, 0, 0.75) 100%);
-    }
-
-    @keyframes breathe { from { opacity: 0.85; } to { opacity: 1; } }
-    @keyframes pulse { from { opacity: 0.65; } to { opacity: 1; } }
-    @keyframes drift {
-      from { transform: rotate(23deg) translateX(-2%); opacity: 0.7; }
-      to { transform: rotate(26deg) translateX(3%); opacity: 1; }
-    }
-    @keyframes sway {
-      from { transform: translate(-1.2vw, 0.5vh); }
-      to { transform: translate(1.2vw, -0.3vh); }
-    }
-    @keyframes float { from { translate: 0 0; } to { translate: 0 -5px; } }
-    @keyframes grain {
-      0% { transform: translate(0, 0); }
-      25% { transform: translate(-3%, 2%); }
-      50% { transform: translate(2%, -3%); }
-      75% { transform: translate(-2%, -1%); }
-      100% { transform: translate(0, 0); }
-    }
-
-    main {
-      position: relative;
-      z-index: 1;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 48px 0;
-    }
-
-    .lockup { position: relative; display: flex; flex-direction: column; align-items: center; }
-
-    .logo img { width: var(--logo-w); height: auto; display: block; }
-
-    /* City and live time, pinned to the screen edges in the gap under the logo */
-    .meta {
-      position: absolute;
-      top: calc(var(--logo-w) * 0.1105 + 32px);
-      left: calc(50% - 50vw);
-      width: 100vw;
-      padding: 0 75px;
-      transform: translateY(-50%);
-      display: flex;
-      justify-content: space-between;
-      font: 400 14px/1 "Inter", "Helvetica Neue", Arial, sans-serif;
-      letter-spacing: 0.01em;
-      text-transform: uppercase;
-      font-variant-numeric: tabular-nums;
-    }
-
-    .about {
-      margin-top: 64px;
-      width: var(--logo-w); /* same width as the logo */
-      font-size: 14px;
-      line-height: 1.85;
-      color: var(--cream);
-    }
-
-    .about em {
-      display: block;
-      margin-top: 18px;
-      font-style: normal;
-      font-size: 11px;
-      font-weight: 400;
-      letter-spacing: 0.32em;
-      text-transform: uppercase;
-      color: var(--cream);
-    }
-
-    .email {
-      margin-top: clamp(72px, 14vh, 150px);
-      font: 400 14px/1 "Inter", "Helvetica Neue", Arial, sans-serif;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--cream);
-      text-decoration: none;
-      transition: color .2s ease;
-    }
-    .email:hover { color: var(--muted); }
-
-    main > * { opacity: 0; animation: rise 1.2s ease forwards, float 12s ease-in-out 1.2s infinite alternate; }
-    .email { animation-delay: .45s, 3s; }
-    .scene { opacity: 0; animation: fade 2.4s ease forwards, travel 48s ease-in-out infinite alternate; }
-    @keyframes rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
-    @keyframes fade { to { opacity: 1; } }
-
-    @media (prefers-reduced-motion: reduce) {
-      main > *, .meta-top, .scene, .scene > * { animation: none; opacity: 1; }
-    }
-
-    /* Phone: city and time move to the top corners */
-    .meta-top { display: none; }
-
-    @media (max-width: 600px) {
-      :root { --horizon: 84%; --logo-w: min(336px, 69vw); }
-      main { padding: 72px 0 40px; }
-      .meta { display: none; }
-      .meta-top {
-        position: fixed;
-        z-index: 2;
-        top: 30px;
-        left: 32px;
-        right: 32px;
-        display: flex;
-        justify-content: space-between;
-        font: 400 10.5px/1 "Inter", "Helvetica Neue", Arial, sans-serif;
-        letter-spacing: 0.16em;
-        text-transform: uppercase;
-        font-variant-numeric: tabular-nums;
-        opacity: 0;
-        animation: rise 1.2s ease .45s forwards;
-      }
-      .about { margin-top: 64px; font-size: 15px; }
-      .about em { margin-top: 26px; font-size: 12px; }
-      .email { margin-top: 112px; font-size: 13px; letter-spacing: 0.2em; }
-      .sweep { left: 6%; width: 140vmax; }
-    }
-
-    @media (max-width: 600px) and (prefers-reduced-motion: reduce) {
-      .meta-top { animation: none; opacity: 1; }
-    }
-  </style>
+  <script>try { if (localStorage.getItem("theme") === "light") document.documentElement.dataset.theme = "light"; } catch (e) {}</script>
+  <link rel="stylesheet" href="assets/site.css">
 </head>
-<body>
+<body class="home">
   <div class="scene" aria-hidden="true">
     <div class="sky"></div>
     <div class="horizon-glow"></div>
@@ -250,10 +22,19 @@
     <div class="vignette"></div>
   </div>
 
-  <div class="meta-top">
-    <span>New York</span>
-    <time class="clock"></time>
-  </div>
+  <nav class="nav" aria-label="Main">
+    <a class="nav-logo" href="./"><img src="assets/logo.webp" alt="Samarian Group" width="2000" height="221"></a>
+    <div class="nav-links">
+      <a href="about/">About</a>
+      <a href="people/">People</a>
+      <a href="contact/">Contact</a>
+      <button class="theme-toggle" type="button" aria-label="Switch to light mode">
+        <svg class="icon-sun" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="3"/><path d="M8 1v1.6M8 13.4V15M1 8h1.6M13.4 8H15M3.05 3.05l1.13 1.13M11.82 11.82l1.13 1.13M3.05 12.95l1.13-1.13M11.82 4.18l1.13-1.13"/></svg>
+        <svg class="icon-moon" viewBox="0 0 16 16" aria-hidden="true"><path d="M13.6 10.2A6 6 0 0 1 5.8 2.4a6 6 0 1 0 7.8 7.8z"/></svg>
+      </button>
+    </div>
+  </nav>
+
 
   <main>
     <div class="lockup">
@@ -261,53 +42,20 @@
         <img src="assets/logo.webp" alt="Samarian" width="2000" height="221">
       </h1>
 
-      <div class="meta">
-        <span>New York</span>
-        <time class="clock"></time>
-      </div>
 
       <p class="about">
         Samarian Group is a private family office focused on venture investment and discreet counsel. We back founders over the long term and assist a select group of families with complex negotiations and introductions that are otherwise difficult to secure.
         <em>By referral only.</em>
       </p>
     </div>
-
-    <!-- PLACEHOLDER CONTACT: replace with real email -->
-    <a class="email" href="mailto:info@samariangroup.com">info@samariangroup.com</a>
   </main>
 
-  <script>
-    // Live New York time
-    (() => {
-      const clocks = document.querySelectorAll(".clock");
-      const fmt = new Intl.DateTimeFormat("en-US", { timeZone: "America/New_York", hour: "numeric", minute: "2-digit" });
-      const tick = () => { const t = fmt.format(new Date()); clocks.forEach(c => { c.textContent = t; }); };
-      tick();
-      setInterval(tick, 10000);
-    })();
+  <footer class="footer">
+    <!-- PLACEHOLDER CONTACT: replace with real email -->
+    <a href="mailto:info@samariangroup.com">info@samariangroup.com</a>
+    <span>&copy; 2026 Samarian Group. All rights reserved.</span>
+  </footer>
 
-    // Ease the light toward the pointer
-    (() => {
-      if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-      const scene = document.querySelector(".scene");
-      let tx = 0, ty = 0, x = 0, y = 0, raf = 0;
-
-      const tick = () => {
-        x += (tx - x) * 0.04;
-        y += (ty - y) * 0.04;
-        scene.style.setProperty("--mx", x.toFixed(4));
-        scene.style.setProperty("--my", y.toFixed(4));
-        raf = Math.abs(tx - x) + Math.abs(ty - y) > 0.001 ? requestAnimationFrame(tick) : 0;
-      };
-
-      const aim = (nx, ny) => {
-        tx = nx; ty = ny;
-        if (!raf) raf = requestAnimationFrame(tick);
-      };
-
-      addEventListener("pointermove", e => aim(e.clientX / innerWidth * 2 - 1, e.clientY / innerHeight * 2 - 1));
-      document.addEventListener("pointerleave", () => aim(0, 0));
-    })();
-  </script>
+  <script src="assets/site.js"></script>
 </body>
 </html>
