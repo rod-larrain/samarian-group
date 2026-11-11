@@ -9,7 +9,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400&family=Jost:wght@300;400&display=swap" rel="stylesheet">
-  <script>try { if (localStorage.getItem("theme") === "light") document.documentElement.dataset.theme = "light"; } catch (e) {}</script>
+  <script>
+    try { if (localStorage.getItem("theme") === "light") document.documentElement.dataset.theme = "light"; } catch (e) {}
+    // Arriving through the logo transition: show the logo straight away so it can glide into place
+    addEventListener("pagereveal", e => { if (e.viewTransition) document.documentElement.classList.add("vt"); });
+  </script>
   <link rel="stylesheet" href="../assets/site.css">
 </head>
 <body class="page">
@@ -49,11 +53,9 @@
         <dt>Office</dt>
         <dd>New York</dd>
       </div>
-      <div>
-        <dt>Introductions</dt>
-        <dd>By referral only.</dd>
-      </div>
     </dl>
+
+    <p class="referral">By referral only.</p>
   </main>
 
   <footer class="footer">
