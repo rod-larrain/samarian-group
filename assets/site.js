@@ -5,8 +5,8 @@
   let tx = 0, ty = 0, x = 0, y = 0, raf = 0;
 
   const tick = () => {
-    x += (tx - x) * 0.04;
-    y += (ty - y) * 0.04;
+    x += (tx - x) * 0.055;
+    y += (ty - y) * 0.055;
     scene.style.setProperty("--mx", x.toFixed(4));
     scene.style.setProperty("--my", y.toFixed(4));
     raf = Math.abs(tx - x) + Math.abs(ty - y) > 0.001 ? requestAnimationFrame(tick) : 0;
@@ -52,4 +52,21 @@ document.querySelectorAll("[data-bio]").forEach(button => {
     apply(light);
     try { localStorage.setItem("theme", light ? "light" : "dark"); } catch (e) {}
   });
+})();
+
+// Phone menu
+(() => {
+  const root = document.documentElement;
+  const toggle = document.querySelector(".menu-toggle");
+  const menu = document.getElementById("menu");
+  const set = open => {
+    root.classList.toggle("menu-open", open);
+    toggle.setAttribute("aria-expanded", open);
+    toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+    menu.inert = !open;
+  };
+  toggle.addEventListener("click", () => set(!root.classList.contains("menu-open")));
+  menu.addEventListener("click", e => { if (e.target.closest("a")) set(false); });
+  addEventListener("keydown", e => { if (e.key === "Escape") set(false); });
+  matchMedia("(min-width: 601px)").addEventListener("change", e => { if (e.matches) set(false); });
 })();
