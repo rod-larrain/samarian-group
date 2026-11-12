@@ -12,8 +12,13 @@ const types = {
   ".webp": "image/webp", ".jpg": "image/jpeg", ".png": "image/png", ".svg": "image/svg+xml", ".xml": "application/xml", ".txt": "text/plain",
 };
 
+// Send the same headers Vercel does (from vercel.json), so the security policy is tested locally too
+const rules = JSON.parse(await readFile(join(root, "vercel.json"), "utf8")).headers
+  .map(r => ({ test: new RegExp(`^${r.source}$`), headers: r.headers }));
+
 createServer(async (req, res) => {
   const url = new URL(req.url, `http://${req.headers.host}`);
+  for (const r of rules) if (r.test.test(url.pathname)) for (const h of r.headers) res.setHeader(h.key, h.value);
   res.setHeader("Cache-Control", "no-store");
   try {
     if (url.pathname.startsWith("/api/")) {
@@ -32,6 +37,8 @@ createServer(async (req, res) => {
   } catch (e) {
     if (e.code !== "ENOENT") console.error(e);
     res.statusCode = e.code === "ENOENT" ? 404 : 500;
-    res.end(e.code === "ENOENT" ? "Not found" : "Server error");
+    if (e.code !== "ENOENT") return res.end("Server error");
+    res.setHeader("Content-Type", types[".html"]);
+    res.end(await readFile(join(root, "404.html")).catch(() => "Not found"));
   }
 }).listen(port, () => console.log(`http://localhost:${port}`));

@@ -60,7 +60,8 @@ function clean(input, previous) {
     contact: { email, office: required(input?.contact?.office, "Office", 200) },
     referral: required(input?.referral, "Referral line", 200),
     copyright: required(input?.copyright, "Copyright line", 200),
-    seo: Object.fromEntries(["home", "about", "people", "contact"].map(k => [k, required(input?.seo?.[k], `Search description (${k})`, 300)])),
+    legal: { sections: blocks(input?.legal?.sections, "Privacy & legal section") },
+    seo: Object.fromEntries(["home", "about", "people", "contact", "legal"].map(k => [k, required(input?.seo?.[k], `Search description (${k})`, 300)])),
   };
   // Old photos nobody uses any more are removed from the site
   const used = new Set(people.map(p => p.photo));

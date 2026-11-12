@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Privacy &amp; Legal | Samarian Group</title>
+  <meta name="description" content="Privacy and legal information for the Samarian Group website.">
+  <link rel="canonical" href="https://samarian-group.vercel.app/legal/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Samarian Group">
+  <meta property="og:title" content="Privacy &amp; Legal | Samarian Group">
+  <meta property="og:description" content="Privacy and legal information for the Samarian Group website.">
+  <meta property="og:url" content="https://samarian-group.vercel.app/legal/">
+  <meta property="og:image" content="https://samarian-group.vercel.app/assets/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Samarian Group">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#050707">
+  <link rel="icon" type="image/png" sizes="64x64" href="../assets/favicon.png">
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+  <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400&family=Jost:wght@300;400&display=swap" rel="stylesheet">
+  <script>
+    try { if (localStorage.getItem("theme") === "light") document.documentElement.dataset.theme = "light"; } catch (e) {}
+    // Arriving through the logo transition: show the logo straight away so it can glide into place
+    addEventListener("pagereveal", e => { if (e.viewTransition) document.documentElement.classList.add("vt"); });
+  </script>
+  <link rel="stylesheet" href="../assets/site.css">
+</head>
+<body class="page">
+  <div class="scene" aria-hidden="true">
+    <div class="sky"></div>
+    <div class="horizon-glow"></div>
+    <div class="shore"></div>
+    <div class="sweep"></div>
+    <div class="grain"></div>
+    <div class="vignette"></div>
+  </div>
+
+  <nav class="nav" aria-label="Main">
+    <a class="nav-logo" href="../"><img src="../assets/logo.webp" alt="Samarian Group" width="2000" height="221"></a>
+    <div class="nav-links">
+      <a href="../about/">About</a>
+      <a href="../people/">People</a>
+      <a href="../contact/">Contact</a>
+      <button class="theme-toggle" type="button" aria-label="Switch to light mode">
+        <svg class="icon-sun" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="3"/><path d="M8 1v1.6M8 13.4V15M1 8h1.6M13.4 8H15M3.05 3.05l1.13 1.13M11.82 11.82l1.13 1.13M3.05 12.95l1.13-1.13M11.82 4.18l1.13-1.13"/></svg>
+        <svg class="icon-moon" viewBox="0 0 16 16" aria-hidden="true"><path d="M13.6 10.2A6 6 0 0 1 5.8 2.4a6 6 0 1 0 7.8 7.8z"/></svg>
+      </button>
+      <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="menu">
+        <span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <div class="menu" id="menu" inert>
+    <nav class="menu-links" aria-label="Menu">
+      <a href="../about/">About</a>
+      <a href="../people/">People</a>
+      <a href="../contact/">Contact</a>
+    </nav>
+    <a class="menu-email" href="mailto:info@samariangroup.com">info@samariangroup.com</a>
+  </div>
+
+
+  <main>
+    <h1 class="visually-hidden">Privacy & Legal</h1>
+
+    <div class="prose">
+      <h3>Privacy</h3>
+      <p>This website does not collect personal information. It uses no analytics, advertising or tracking tools, and sets no cookies for visitors. Your choice of light or dark mode is stored only in your own&nbsp;browser.</p>
+      <p>The site is hosted by Vercel, which processes standard technical information such as IP addresses to deliver and protect the site. Fonts are provided by Google Fonts, which may receive your IP address when a page&nbsp;loads.</p>
+      <p>If you email us, we use your message only to respond to&nbsp;you.</p>
+
+      <h3>Legal</h3>
+      <p>The information on this website is provided for general information only. It does not constitute an offer to sell, or a solicitation of an offer to buy, any security or investment product, and it is not investment, legal or tax&nbsp;advice.</p>
+      <p>Samarian Group works by referral&nbsp;only.</p>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <a href="mailto:info@samariangroup.com">info@samariangroup.com</a>
+    <span>© 2026 Samarian Group. All rights reserved. <a href="../legal/">Privacy &amp; Legal</a></span>
+  </footer>
+
+  <script src="../assets/site.js"></script>
+</body>
+</html>

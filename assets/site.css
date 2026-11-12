@@ -452,7 +452,11 @@ body:has(.bio[open]) { overflow: hidden; }
 .footer a:hover { color: var(--cream); }
 /* The landing page already shows the email large; keep only the copyright, centred */
 .home .footer { justify-content: center; }
-.home .footer a { display: none; }
+.home .footer > a { display: none; }
+.footer span a { margin-left: 18px; }
+.notfound main { justify-content: center; }
+.notfound .prose { text-align: center; }
+.notfound .referral a { color: inherit; text-decoration: none; border-bottom: 1px solid currentColor; padding-bottom: 4px; }
 
 /* Phone menu: two hairlines that cross into an X, opening a frosted panel with the links and email */
 .menu-toggle, .menu { display: none; }
@@ -564,6 +568,7 @@ body:has(.bio[open]) { overflow: hidden; }
   .menu-open .menu-links a:nth-child(3) { transition-delay: .26s; }
   .menu-open .menu-email { transition-delay: .38s; }
   .footer { margin: 0; padding-bottom: 32px; flex-direction: column; align-items: center; gap: 6px; text-align: center; font-size: 9.5px; letter-spacing: 0.16em; }
+  .footer span a { display: block; margin: 8px 0 0; }
   .about { margin-top: 64px; font-size: 16px; }
   .about em { margin-top: 26px; font-size: 12px; }
   .sweep { left: 6%; width: 140vmax; }
