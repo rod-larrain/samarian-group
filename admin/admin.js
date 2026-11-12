@@ -167,7 +167,7 @@
   }
 
   // ---- people ----
-  const photoSrc = p => p.upload || previews[p.photo] || (p.photo ? `../${p.photo}` : "");
+  const photoSrc = p => p.upload || previews[p.photo] || (p.photo ? `/${p.photo}` : "");
   function renderPeople() {
     const list = $("#people-list");
     list.replaceChildren(...state.people.map((p, i) => {
@@ -259,7 +259,7 @@
       render();
       const msg = document.createElement("span");
       msg.append("Saved. The site updates in about 30 seconds. ");
-      const link = Object.assign(document.createElement("a"), { href: "../", target: "_blank", rel: "noopener", textContent: "View site" });
+      const link = Object.assign(document.createElement("a"), { href: "/", target: "_blank", rel: "noopener", textContent: "View site" });
       msg.append(link);
       status(msg, "ok");
     } catch (err) {
