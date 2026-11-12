@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Dashboard | Samarian Group</title>
+  <meta name="theme-color" content="#050707">
+  <link rel="icon" type="image/png" sizes="64x64" href="../assets/favicon.png">
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Jost:wght@300;400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+  <!-- Sign in -->
+  <section class="login" id="login" hidden>
+    <form class="login-card" id="login-form">
+      <img class="login-logo" src="../assets/logo.webp" alt="Samarian Group" width="2000" height="221">
+      <p class="eyebrow">Dashboard</p>
+      <label class="field">
+        <span>Password</span>
+        <input type="password" name="password" autocomplete="current-password" required autofocus>
+      </label>
+      <p class="error" id="login-error" role="alert"></p>
+      <button class="btn btn-primary" type="submit">Sign in</button>
+    </form>
+  </section>
+
+  <!-- Editor -->
+  <div class="app" id="app" hidden>
+    <header class="bar">
+      <a class="bar-logo" href="../" target="_blank" rel="noopener" title="Open the site"><img src="../assets/logo.webp" alt="Samarian Group" width="2000" height="221"></a>
+      <span class="bar-title">Dashboard</span>
+      <p class="status" id="status" role="status" aria-live="polite"></p>
+      <button class="btn btn-ghost" type="button" id="sign-out">Sign out</button>
+      <button class="btn btn-primary" type="button" id="save" disabled>Save &amp; publish</button>
+    </header>
+
+    <div class="layout">
+      <nav class="toc" aria-label="Sections">
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#people">People</a>
+        <a href="#contact">Contact &amp; footer</a>
+        <a href="#search">Search &amp; sharing</a>
+      </nav>
+
+      <main class="editor" id="editor">
+        <section class="card" id="home">
+          <h2>Home</h2>
+          <label class="field"><span>Paragraph</span><textarea data-path="home.intro" rows="4"></textarea></label>
+          <label class="field">
+            <span>Referral line</span>
+            <input data-path="referral">
+            <small>Shown under the home paragraph and at the end of About and Contact.</small>
+          </label>
+        </section>
+
+        <section class="card" id="about">
+          <h2>About</h2>
+          <label class="field"><span>Introduction</span><textarea data-path="about.intro" rows="4"></textarea></label>
+          <h3>Points</h3>
+          <div class="list" data-list="about.sections"></div>
+          <button class="btn btn-ghost add" type="button" data-add="about.sections">Add a point</button>
+          <label class="field gap"><span>Values heading</span><input data-path="about.valuesTitle"></label>
+          <div class="list" data-list="about.values"></div>
+          <button class="btn btn-ghost add" type="button" data-add="about.values">Add a value</button>
+        </section>
+
+        <section class="card" id="people">
+          <h2>People</h2>
+          <p class="hint">Photos are cropped to the same portrait shape as the others. Use blank lines in a bio to start a new paragraph.</p>
+          <div class="people-list" id="people-list"></div>
+          <button class="btn btn-ghost add" type="button" id="add-person">Add a person</button>
+        </section>
+
+        <section class="card" id="contact">
+          <h2>Contact &amp; footer</h2>
+          <label class="field"><span>Email</span><input type="email" data-path="contact.email"><small>Used on the Contact page, in the footer and in the phone menu.</small></label>
+          <label class="field"><span>Office</span><input data-path="contact.office"></label>
+          <label class="field"><span>Copyright line</span><input data-path="copyright"></label>
+        </section>
+
+        <section class="card" id="search">
+          <h2>Search &amp; sharing</h2>
+          <p class="hint">The short description Google and link previews show for each page. Around 150 characters works best.</p>
+          <label class="field"><span>Home</span><textarea data-path="seo.home" rows="2" data-count></textarea></label>
+          <label class="field"><span>About</span><textarea data-path="seo.about" rows="2" data-count></textarea></label>
+          <label class="field"><span>People</span><textarea data-path="seo.people" rows="2" data-count></textarea></label>
+          <label class="field"><span>Contact</span><textarea data-path="seo.contact" rows="2" data-count></textarea></label>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <template id="block-template">
+    <div class="item">
+      <div class="item-tools">
+        <button type="button" class="icon" data-move="-1" aria-label="Move up">↑</button>
+        <button type="button" class="icon" data-move="1" aria-label="Move down">↓</button>
+        <button type="button" class="icon danger" data-remove aria-label="Remove">Remove</button>
+      </div>
+      <label class="field"><span>Heading</span><input data-key="title"></label>
+      <label class="field"><span>Text</span><textarea data-key="text" rows="3"></textarea></label>
+    </div>
+  </template>
+
+  <template id="person-template">
+    <div class="person item">
+      <div class="person-photo">
+        <img alt="">
+        <label class="btn btn-ghost photo-btn">Change photo<input type="file" accept="image/*" hidden></label>
+      </div>
+      <div class="person-fields">
+        <div class="item-tools">
+          <button type="button" class="icon" data-move="-1" aria-label="Move up">↑</button>
+          <button type="button" class="icon" data-move="1" aria-label="Move down">↓</button>
+          <button type="button" class="icon danger" data-remove aria-label="Remove">Remove</button>
+        </div>
+        <label class="field"><span>Name</span><input data-key="name"></label>
+        <label class="field"><span>Title</span><input data-key="role"></label>
+        <label class="field"><span>Bio</span><textarea data-key="bio" rows="6"></textarea></label>
+      </div>
+    </div>
+  </template>
+
+  <script src="admin.js"></script>
+</body>
+</html>
