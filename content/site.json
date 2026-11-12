@@ -1,6 +1,6 @@
 {
   "home": {
-    "intro": "Samarian Group is a private family office focused on venture investment and discreet counsel. We back founders over the long term and assist a select group of families with complex negotiations and introductions that are otherwise difficult to secure."
+    "intro": "Samarian Group is a private family office focused on venture investment and discreet counsel. We back founders over the long term and assist a select group of families with complex negotiations and introductions that are otherwise difficult to secure.."
   },
   "about": {
     "intro": "Samarian Group is a private family office focused on venture investment and discreet counsel. We back founders over the long term and assist a select group of families with complex negotiations and introductions that are otherwise difficult to secure.",
@@ -84,13 +84,6 @@
   },
   "referral": "By referral only.",
   "copyright": "© 2026 Samarian Group. All rights reserved.",
-  "seo": {
-    "home": "Samarian Group is a private family office in New York focused on venture investment and discreet counsel. By referral only.",
-    "about": "Samarian Group is a New York private family office focused on venture investment and discreet counsel, with global networks decades in the making.",
-    "people": "The team behind Samarian Group: Alfred Zaccagnino, Phil Leseur, Micaela Mangot, Jennifer Barone, Milène Jardine, Wolfgang Heimerl and Major General John F. Wharton (Ret.).",
-    "contact": "Contact Samarian Group, a private family office in New York. By referral only.",
-    "legal": "Privacy and legal information for the Samarian Group website."
-  },
   "legal": {
     "sections": [
       {
@@ -102,5 +95,12 @@
         "text": "The information on this website is provided for general information only. It does not constitute an offer to sell, or a solicitation of an offer to buy, any security or investment product, and it is not investment, legal or tax advice.\n\nSamarian Group works by referral only."
       }
     ]
+  },
+  "seo": {
+    "home": "Samarian Group is a private family office in New York focused on venture investment and discreet counsel. By referral only.",
+    "about": "Samarian Group is a New York private family office focused on venture investment and discreet counsel, with global networks decades in the making.",
+    "people": "The team behind Samarian Group: Alfred Zaccagnino, Phil Leseur, Micaela Mangot, Jennifer Barone, Milène Jardine, Wolfgang Heimerl and Major General John F. Wharton (Ret.).",
+    "contact": "Contact Samarian Group, a private family office in New York. By referral only.",
+    "legal": "Privacy and legal information for the Samarian Group website."
   }
 }
