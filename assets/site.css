@@ -2,6 +2,7 @@
   --bg: #050707;
   --cream: #fdf4e3;
   --muted: #a59e94;
+  --heading: #ffffff;
   --surface: rgba(5, 7, 7, 0.72);
   --panel: rgba(5, 7, 7, 0.94);
   --line: rgba(253, 244, 227, 0.1);
@@ -14,6 +15,7 @@
 :root[data-theme="light"] {
   --bg: #f1ece3;
   --cream: #16130f;
+  --heading: #16130f;
   --muted: #7b7369;
   --surface: rgba(241, 236, 227, 0.74);
   --panel: rgba(241, 236, 227, 0.96);
@@ -186,6 +188,7 @@ main {
 main > * { opacity: 0; animation: rise 1.6s cubic-bezier(.2, .7, .2, 1) forwards, float 12s ease-in-out 1.6s infinite alternate; }
 .lockup .about,
 .prose > *,
+.values > .value,
 .people > li,
 .contact > div {
   opacity: 0;
@@ -193,9 +196,9 @@ main > * { opacity: 0; animation: rise 1.6s cubic-bezier(.2, .7, .2, 1) forwards
   animation-delay: calc(.35s + var(--i, 0) * .09s);
 }
 .lockup .about { animation-delay: .55s; }
-.prose > :nth-child(1), .people > li:nth-child(1), .contact > div:nth-child(1) { --i: 0; }
-.prose > :nth-child(2), .people > li:nth-child(2), .contact > div:nth-child(2) { --i: 1; }
-.prose > :nth-child(3), .people > li:nth-child(3), .contact > div:nth-child(3) { --i: 2; }
+.prose > :nth-child(1), .values > :nth-child(1), .people > li:nth-child(1), .contact > div:nth-child(1) { --i: 0; }
+.prose > :nth-child(2), .values > :nth-child(2), .people > li:nth-child(2), .contact > div:nth-child(2) { --i: 1; }
+.prose > :nth-child(3), .values > :nth-child(3), .people > li:nth-child(3), .contact > div:nth-child(3) { --i: 2; }
 .prose > :nth-child(4), .people > li:nth-child(4), .contact > div:nth-child(4) { --i: 3; }
 .prose > :nth-child(5), .people > li:nth-child(5), .contact > div:nth-child(5) { --i: 4; }
 .prose > :nth-child(6), .people > li:nth-child(6), .contact > div:nth-child(6) { --i: 5; }
@@ -322,7 +325,32 @@ main > * { opacity: 0; animation: rise 1.6s cubic-bezier(.2, .7, .2, 1) forwards
   text-transform: uppercase;
 }
 .prose h2 { margin-top: 88px; color: var(--muted); }
-.prose h3 { margin: 48px 0 12px; font-size: 19px; font-weight: 300; letter-spacing: 0.02em; line-height: 1.4; }
+.prose h3 { margin: 48px 0 12px; font-size: 20px; font-weight: 600; letter-spacing: 0.01em; line-height: 1.4; color: var(--heading); }
+/* Values: three equal boxes in a row (stacked on phones) */
+.values-title {
+  margin-top: 96px;
+  font: 400 11px/1 "Inter", "Helvetica Neue", Arial, sans-serif;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.values {
+  margin-top: 40px;
+  width: min(1040px, 100%);
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+.value {
+  padding: 40px 32px 44px;
+  border: 1px solid var(--line);
+  background: color-mix(in srgb, var(--cream) 3%, transparent);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+.value h3 { margin: 0 0 16px; font-size: 20px; font-weight: 600; letter-spacing: 0.01em; line-height: 1.35; color: var(--heading); }
+.value p { font-size: 15.5px; line-height: 1.75; }
+
 .referral {
   margin-top: 48px;
   font-size: 11px;
@@ -471,7 +499,7 @@ body:has(.bio[open]) { overflow: hidden; }
 
 @media (prefers-reduced-motion: reduce) {
   ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; }
-  main > *, .lockup .about, .prose > *, .people > li, .contact > div, .footer, .nav-logo, .nav-links a, .theme-toggle, .menu-toggle, .scene, .scene > * { animation: none; opacity: 1; }
+  main > *, .lockup .about, .prose > *, .values > .value, .people > li, .contact > div, .footer, .nav-logo, .nav-links a, .theme-toggle, .menu-toggle, .scene, .scene > * { animation: none; opacity: 1; }
   .nav, .nav-links a::after, .menu, .menu *, .menu-toggle span { transition: none !important; }
 }
 
@@ -574,6 +602,9 @@ body:has(.bio[open]) { overflow: hidden; }
   .sweep { left: 6%; width: 140vmax; }
   .page main { padding: 124px 0 56px; }
   .people { gap: 48px 20px; }
+  .values-title { margin-top: 72px; }
+  .values { grid-template-columns: minmax(0, 1fr); gap: 14px; margin-top: 28px; }
+  .value { padding: 28px 24px 32px; }
   .person { width: calc(50% - 10px); }
   .person h2 { margin-top: 16px; font-size: 16px; }
   .role { font-size: 9.5px; letter-spacing: 0.18em; }
